@@ -1,0 +1,38 @@
+!pip install yt-dlp
+
+import yt_dlp
+
+def download_youtube_video(video_url, save_path="downloads"):
+    """
+    Downloads a YouTube video in the best available video and audio quality.
+
+    Args:
+        video_url (str): URL of the YouTube video.
+        save_path (str): Directory to save the downloaded video.
+    """
+    try:
+        # Options for yt-dlp
+        ydl_opts = {
+            'format': 'bestvideo+bestaudio/best',  # Download best video and audio and merge
+            'outtmpl': f'{save_path}/%(title)s.%(ext)s',  # Save file format
+            'merge_output_format': 'mp4',  # Merge video and audio into MP4 format
+        }
+
+        # Downloading the video
+        print("Downloading...")
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([video_url])
+        print(f"Video downloaded successfully and saved in: {save_path}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    # Input YouTube video URL
+    video_url = input("Enter the YouTube video URL: ").strip()
+
+    # Input save directory (default is 'downloads')
+    save_path = input("Enter the save path (or press Enter for default 'downloads'): ").strip() or "downloads"
+
+    # Call the function to download the video
+    download_youtube_video(video_url, save_path)
